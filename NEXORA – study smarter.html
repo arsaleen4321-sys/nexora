@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NEXORA – study smarter</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F4F5FB;--grid:#E3E5F3;--card:#fff;--ink:#16183F;--mut:#5C5F8A;--line:#16183F;--blue:#6C4DFF;--coral:#FF4F9A;--mark:#FFD84D;--ok:#0F8F62;--on:#fff;color-scheme:light;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101230;--grid:#1B1E4A;--card:#191C47;--ink:#EEF0FF;--mut:#A3A7D8;--line:#EEF0FF;--blue:#A692FF;--coral:#FF8CC0;--ok:#4FD1A1;--on:#101230;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#101230;--grid:#1B1E4A;--card:#191C47;--ink:#EEF0FF;--mut:#A3A7D8;--line:#EEF0FF;--blue:#A692FF;--coral:#FF8CC0;--ok:#4FD1A1;--on:#101230;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;font:400 1rem/1.5 "DM Sans","Noto Sans Devanagari",system-ui,sans-serif;color:var(--ink);
+background:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px;min-height:100vh}
+h1,h2,h3,.hd{font-family:"Bricolage Grotesque","Noto Sans Devanagari",sans-serif;margin:0}
+.app{display:grid;grid-template-columns:200px 1fr;max-width:1100px;margin:0 auto}
+nav{position:sticky;top:0;align-self:start;padding:22px 14px;height:100vh;display:flex;flex-direction:column;gap:6px}
+.logo{font:800 1.4rem "Bricolage Grotesque";margin-bottom:14px}.logo i{font-style:normal;background:var(--mark);color:#16183F;padding:0 .3em;border-radius:5px}
+nav button{all:unset;cursor:pointer;padding:10px 12px;border-radius:10px;font-weight:500;color:var(--mut)}
+nav button[aria-current="page"]{background:var(--ink);color:var(--bg)}
+nav button:focus-visible,.btn:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+main{padding:26px 20px 60px;min-width:0}
+.view{display:none}.view.on{display:block}
+h1{font-size:clamp(1.8rem,5vw,2.6rem);letter-spacing:-.03em;line-height:1.1;margin-bottom:4px}
+.sub{color:var(--mut);margin:0 0 22px}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px}
+.card.hl{box-shadow:6px 6px 0 var(--mark)}
+.card h3{font-size:1.05rem;margin-bottom:10px}
+.big{font:800 2.4rem "Bricolage Grotesque";line-height:1}.lbl{color:var(--mut);font-size:.88rem}
+.btn{background:var(--blue);color:var(--on);border:0;border-radius:10px;padding:10px 18px;font:700 .95rem "DM Sans";cursor:pointer}
+.btn.o{background:transparent;color:var(--ink);border:2px solid var(--line)}
+input,textarea,select{font:inherit;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:10px;padding:9px 12px;max-width:100%}
+.add{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.add input{flex:1;min-width:140px}
+.item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px dashed var(--grid)}
+.item.d span{text-decoration:line-through;color:var(--mut)}.item span{flex:1;overflow-wrap:anywhere}
+.item time{font-weight:700;color:var(--blue);min-width:3.2em}
+.x{background:none;border:0;color:var(--mut);cursor:pointer;font-size:1.2rem}
+.bar{height:12px;background:var(--grid);border-radius:99px;overflow:hidden;margin:6px 0}.bar b{display:block;height:100%;background:var(--coral);border-radius:99px}
+.week{display:flex;align-items:flex-end;gap:10px;height:120px}.week div{flex:1;text-align:center;font-size:.78rem;color:var(--mut)}
+.week i{display:block;background:var(--blue);border-radius:6px 6px 0 0;min-height:3px}
+.ring{position:relative;width:260px;height:260px;margin:6px auto 16px}.ring svg{transform:rotate(-90deg)}
+.ring .t{position:absolute;inset:0;display:grid;place-items:center;font:800 3.2rem "Bricolage Grotesque"}
+.modes{display:flex;gap:8px;justify-content:center;margin-bottom:14px;flex-wrap:wrap}
+.modes button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.chat{height:320px;overflow:auto;display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+.m{padding:10px 14px;border-radius:14px;max-width:85%;white-space:pre-wrap;overflow-wrap:anywhere}
+.m.u{align-self:flex-end;background:var(--blue);color:var(--on)}.m.a{background:var(--bg);border:2px solid var(--line)}
+.fc{min-height:150px;display:grid;place-items:center;text-align:center;font:600 1.3rem "Bricolage Grotesque";cursor:pointer;padding:20px}
+.tag{display:inline-block;background:var(--mark);color:#16183F;border-radius:99px;padding:1px 10px;font-size:.8rem;font-weight:700}
+@media(max-width:760px){.app{display:block}
+nav{position:fixed;z-index:9;bottom:0;left:0;right:0;top:auto;height:auto;flex-direction:row;overflow-x:auto;padding:8px 8px calc(8px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:2px solid var(--line)}
+.logo{display:none}nav button{white-space:nowrap;flex:0 0 auto}main{padding-bottom:90px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+[hidden]{display:none!important}
+#auth{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 15% 10%,color-mix(in srgb,var(--blue) 35%,transparent),transparent 45%),radial-gradient(circle at 90% 90%,color-mix(in srgb,var(--coral) 30%,transparent),transparent 45%)}
+.ac{width:100%;max-width:420px;margin:0}.ac label{display:block;font-weight:700;margin-bottom:12px}.ac input{display:block;width:100%;margin-top:4px}
+.alogo{font-size:2rem;margin-bottom:10px}.alogo i{font-style:normal;background:var(--mark);color:#16183F;padding:0 .3em;border-radius:5px}
+.ac .modes{justify-content:flex-start}
+</style>
+</head>
+<body>
+<section id="auth"><div class="card hl ac"><div class="hd alogo"><i>NEX</i>ORA</div><h1>Study smarter. Every day.</h1><p class="sub">Join with your email to unlock your dashboard, planner, goals, focus timer, AI tutor, study groups and flashcards.</p>
+<div class="modes"><button class="btn o" id="aj" type="button">Join</button><button class="btn o" id="al" type="button">Log in</button></div>
+<form id="aForm"><label>Email<input id="aEm" type="email" required autocomplete="email" placeholder="you@example.com"></label><label>Password<input id="aPw" type="password" required minlength="8" placeholder="At least 8 characters"></label>
+<div id="aErr" role="alert" style="color:var(--coral);min-height:1.5em;font-weight:700"></div><button class="btn" id="aGo" style="width:100%">Join NEXORA</button></form></div></section>
+<div class="app" id="app" hidden>
+<nav id="nav"><div class="logo"><i>NEX</i>ORA</div></nav>
+<main>
+<section class="view on" id="dash">
+ <h1 id="hi">Welcome</h1><p class="sub" id="date"></p>
+ <div class="card hl"><div class="hd" id="lv" style="font-size:1.4rem"></div><div class="bar"><b id="xpb" style="width:0"></b></div><div class="lbl" id="xpt"></div></div>
+ <div class="row">
+  <div class="card hl"><div class="big" id="sMin">0</div><div class="lbl">focus minutes today</div></div>
+  <div class="card"><div class="big" id="sTask">0/0</div><div class="lbl">tasks done today</div></div>
+  <div class="card"><div class="big" id="sStreak">0</div><div class="lbl">day streak</div></div>
+ </div>
+ <div class="row">
+  <div class="card"><h3>Last 7 days (minutes)</h3><div class="week" id="week"></div></div>
+  <div class="card"><h3>Exam countdown</h3><div class="big" id="cd">–</div><div class="lbl" id="cdn">Set your exam below</div>
+   <div class="add" style="margin:12px 0 0"><input id="exN" placeholder="Exam name"><input id="exD" type="date"><button class="btn o" id="exB">Set</button></div></div>
+ </div>
+ <div class="row"><div class="card"><h3>Up next</h3><div id="next" class="lbl"></div></div><div class="card"><h3>Daily quests</h3><div id="qs"></div></div></div>
+</section>
+
+<section class="view" id="plan">
+ <h1>Daily planner</h1><p class="sub">Plan today in time blocks. Tick them off as you go.</p>
+ <div class="card"><div class="add"><input id="pT" placeholder="What will you study?"><input id="pH" type="time" value="09:00"><button class="btn" id="pB">Add</button></div><div id="pL"></div></div>
+</section>
+
+<section class="view" id="goals">
+ <h1>Study goals</h1><p class="sub">Big targets, tracked in small steps.</p>
+ <div class="card"><div class="add"><input id="gT" placeholder="Goal (e.g. Solve chapters)"><input id="gN" type="number" min="1" placeholder="Target" style="width:100px;flex:none"><input id="gU" placeholder="Unit" style="width:110px;flex:none"><button class="btn" id="gB">Add goal</button></div></div>
+ <div id="gL"></div>
+</section>
+
+<section class="view" id="focus">
+ <h1>Focus timer</h1><p class="sub">Work in one block, then rest. Finished focus blocks count toward your streak.</p>
+ <div class="card hl" style="text-align:center">
+  <div class="modes" id="modes"></div>
+  <div class="ring"><svg width="260" height="260"><circle cx="130" cy="130" r="118" fill="none" stroke="var(--grid)" stroke-width="14"/><circle id="arc" cx="130" cy="130" r="118" fill="none" stroke="var(--coral)" stroke-width="14" stroke-linecap="round" stroke-dasharray="741.4" stroke-dashoffset="0"/></svg><div class="t" id="clock">25:00</div></div>
+  <button class="btn" id="go">Start</button> <button class="btn o" id="rs">Reset</button>
+ </div>
+</section>
+
+<section class="view" id="tutor">
+ <h1>AI tutor</h1><p class="sub">Ask any doubt. Your tutor explains it step by step, with an example.</p>
+ <div class="card"><div class="chat" id="chat"><div class="m a">Hi! Which topic would you like to understand today?</div></div>
+ <div class="add" style="margin:0"><input id="qI" placeholder="Type your doubt…"><button class="btn" id="qB">Ask</button></div></div>
+</section>
+
+<section class="view" id="groups">
+ <h1>Study groups</h1><p class="sub">Join a group to study on a shared schedule.</p>
+ <div class="row" id="gr"></div>
+</section>
+
+<section class="view" id="cards">
+ <h1>Flashcards</h1><p class="sub">Tap the card to flip it.</p>
+ <div class="card hl fc" id="fc" tabindex="0" role="button"></div>
+ <div class="add"><button class="btn o" id="fP">Previous</button><button class="btn" id="fN">Next</button><span class="lbl" id="fI" style="align-self:center"></span></div>
+ <div class="card"><div class="add" style="margin:0"><input id="cQ" placeholder="Question"><input id="cA" placeholder="Answer"><button class="btn" id="cB">Add card</button></div></div>
+</section>
+</main>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const key=d=>d.toISOString().slice(0,10),today=()=>key(new Date());
+const dflt={xp:0,cr:{},tasks:[],goals:[],log:{},exam:null,joined:[],cards:[{q:"Speed = ?",a:"Distance ÷ Time"},{q:"Powerhouse of the cell?",a:"Mitochondria"}]};
+let S=JSON.parse(JSON.stringify(dflt)),user=null;
+const save=()=>{if(!user)return;try{localStorage.setItem("nx_data_"+user,JSON.stringify(S))}catch(e){}};
+
+const tabs=[["dash","Dashboard"],["plan","Planner"],["goals","Goals"],["focus","Focus"],["tutor","AI tutor"],["groups","Groups"],["cards","Flashcards"]];
+tabs.forEach(([id,n])=>{const b=document.createElement("button");b.textContent=n;b.dataset.id=id;b.onclick=()=>go(id);$("nav").appendChild(b)});
+function go(id){document.querySelectorAll(".view").forEach(v=>v.classList.toggle("on",v.id===id));
+ document.querySelectorAll("nav button").forEach(b=>b.toggleAttribute("aria-current",b.dataset.id===id)&&b.setAttribute("aria-current","page"));
+ document.querySelectorAll("nav button").forEach(b=>{if(b.dataset.id!==id)b.removeAttribute("aria-current")});draw()}
+
+function streak(){let n=0,d=new Date();if(!S.log[key(d)])d.setDate(d.getDate()-1);
+ while(S.log[key(d)]>0){n++;d.setDate(d.getDate()-1)}return n}
+function draw(){
+ const h=new Date().getHours();$("hi").textContent=(h<12?"Good morning":h<18?"Good afternoon":"Good evening")+(user?", "+user.split("@")[0]:"")+".";
+ $("date").textContent=new Date().toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long"});
+ const T=S.tasks.filter(t=>t.d===today()),done=T.filter(t=>t.x).length;
+ $("sMin").textContent=S.log[today()]||0;$("sTask").textContent=done+"/"+T.length;$("sStreak").textContent=streak();
+ let w="";const mx=Math.max(30,...Object.values(S.log));
+ for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const m=S.log[key(d)]||0;
+  w+=`<div><i style="height:${Math.round(m/mx*90)}px"></i>${d.toLocaleDateString(undefined,{weekday:"short"}).slice(0,2)}</div>`}
+ $("week").innerHTML=w;
+ if(S.exam){const n=Math.ceil((new Date(S.exam.d)-new Date(today()))/864e5);$("cd").textContent=n>=0?n+" days":"Done";$("cdn").textContent=S.exam.n}
+ const nx=T.filter(t=>!t.x).sort((a,b)=>a.h.localeCompare(b.h))[0];
+ $("next").textContent=nx?nx.h+" – "+nx.t:"Nothing planned. Add a block in the planner.";
+ renderXP();
+ $("pL").innerHTML=T.sort((a,b)=>a.h.localeCompare(b.h)).map(t=>`<div class="item ${t.x?"d":""}"><input type="checkbox" ${t.x?"checked":""} data-t="${t.id}" aria-label="Done"><time>${t.h}</time><span>${esc(t.t)}</span><button class="x" data-dt="${t.id}" aria-label="Delete">×</button></div>`).join("")||'<p class="lbl">No blocks yet for today.</p>';
+ $("gL").innerHTML=S.goals.map(g=>{const p=Math.min(100,Math.round(g.c/g.n*100));return `<div class="card"><h3>${esc(g.t)} <span class="tag">${p}%</span></h3><div class="bar"><b style="width:${p}%"></b></div><div class="add" style="margin:8px 0 0;align-items:center"><span class="lbl" style="flex:1">${g.c} of ${g.n} ${esc(g.u)}</span><button class="btn o" data-gm="${g.id}">−1</button><button class="btn" data-gp="${g.id}">+1</button><button class="x" data-dg="${g.id}" aria-label="Delete">×</button></div></div>`}).join("")||'<p class="lbl">Add your first goal above.</p>';
+ const G=[["Class 10 Maths","Daily 7:00 PM","24 members"],["NEET Biology","Daily 8:30 PM","41 members"],["Python for Beginners","Sat 5:00 PM","18 members"],["English Speaking Circle","Sun 11:00 AM","30 members"]];
+ $("gr").innerHTML=G.map((g,i)=>{const j=S.joined.includes(i);return `<div class="card ${j?"hl":""}"><h3>${g[0]}</h3><div class="lbl">${g[1]} · ${g[2]}${j?" + you":""}</div><p style="margin:10px 0"></p><button class="btn ${j?"o":""}" data-j="${i}">${j?"Leave group":"Join group"}</button></div>`}).join("");
+ const c=S.cards[ci%S.cards.length];$("fc").textContent=c?(flip?c.a:c.q):"Add a card below";$("fI").textContent=S.cards.length?(ci%S.cards.length+1)+" / "+S.cards.length:"";
+}
+let ci=0,flip=false;
+$("fc").onclick=()=>{flip=!flip;if(flip&&S.cards.length){S.cr[today()]=(S.cr[today()]||0)+1;S.xp+=2;save()}draw()};$("fN").onclick=()=>{ci=(ci+1)%Math.max(1,S.cards.length);flip=false;draw()};
+$("fP").onclick=()=>{ci=(ci-1+S.cards.length)%Math.max(1,S.cards.length);flip=false;draw()};
+$("cB").onclick=()=>{const q=$("cQ").value.trim(),a=$("cA").value.trim();if(!q||!a)return;S.cards.push({q,a});$("cQ").value=$("cA").value="";save();draw()};
+$("pB").onclick=()=>{const t=$("pT").value.trim();if(!t)return;S.tasks.push({id:Date.now(),t,h:$("pH").value||"09:00",d:today(),x:0});$("pT").value="";save();draw()};
+$("gB").onclick=()=>{const t=$("gT").value.trim(),n=+$("gN").value;if(!t||!n)return;S.goals.push({id:Date.now(),t,n,c:0,u:$("gU").value.trim()||"steps"});$("gT").value=$("gN").value=$("gU").value="";save();draw()};
+$("exB").onclick=()=>{if($("exD").value){S.exam={n:$("exN").value.trim()||"Exam",d:$("exD").value};save();draw()}};
+document.addEventListener("click",e=>{const d=e.target.dataset;if(!d)return;
+ if(d.dt){S.tasks=S.tasks.filter(t=>t.id!=d.dt)}else if(d.dg){S.goals=S.goals.filter(g=>g.id!=d.dg)}
+ else if(d.gp||d.gm){const g=S.goals.find(g=>g.id==(d.gp||d.gm));g.c=Math.max(0,Math.min(g.n,g.c+(d.gp?1:-1)));if(d.gp)S.xp+=5}
+ else if(d.j!==undefined){const i=+d.j;S.joined=S.joined.includes(i)?S.joined.filter(x=>x!==i):[...S.joined,i]}else return;save();draw()});
+document.addEventListener("change",e=>{if(e.target.dataset.t){const t=S.tasks.find(t=>t.id==e.target.dataset.t);t.x=e.target.checked?1:0;if(e.target.checked)S.xp+=10;save();draw()}});
+
+const modes=[["Focus",25],["Short break",5],["Long break",15]];let mi=0,left=25*60,run=null,endAt=0;
+modes.forEach(([n,m],i)=>{const b=document.createElement("button");b.className="btn o";b.textContent=n+" "+m;b.onclick=()=>{stop();mi=i;left=m*60;paint();mb()};b.dataset.i=i;$("modes").appendChild(b)});
+const mb=()=>document.querySelectorAll("#modes button").forEach((b,i)=>b.setAttribute("aria-pressed",i===mi));
+function paint(){const m=Math.floor(left/60),s=left%60,t=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");$("clock").textContent=t;document.title=run?t+" – NEXORA":"NEXORA – study smarter";
+ $("arc").style.strokeDashoffset=741.4*(1-left/(modes[mi][1]*60))}
+function stop(){clearInterval(run);run=null;$("go").textContent="Start"}
+$("go").onclick=()=>{if(run){left=Math.max(0,Math.round((endAt-Date.now())/1000));stop();paint();return}
+ endAt=Date.now()+left*1000;$("go").textContent="Pause";
+ run=setInterval(()=>{left=Math.max(0,Math.round((endAt-Date.now())/1000));paint();
+  if(left<=0){stop();if(mi===0){S.log[today()]=(S.log[today()]||0)+modes[0][1];S.xp+=25;save();draw()}left=modes[mi][1]*60;paint();alert(mi===0?"Focus block done. Take a break!":"Break over. Back to it!")}},500)};
+$("rs").onclick=()=>{stop();left=modes[mi][1]*60;paint()};
+mb();paint();
+
+const hist=[];
+async function ask(){const q=$("qI").value.trim();if(!q)return;$("qI").value="";
+ const add=(c,t)=>{const d=document.createElement("div");d.className="m "+c;d.textContent=t;$("chat").appendChild(d);$("chat").scrollTop=1e9;return d};
+ add("u",q);const out=add("a","Thinking…");
+ let sample=null;try{sample=await claude.use("sample")}catch(e){}
+ if(!sample){out.textContent="The AI tutor works when this page is opened inside Claude. Open the page from your claude.ai artifact link.";return}
+ hist.push({role:"user",content:q});
+ const sys="You are a patient tutor for school and college students. Reply in clear, simple English. Explain step by step in simple words with one short example, then end with one practice question. Keep it under 150 words.\n\nConversation:\n"+hist.map(m=>(m.role==="user"?"Student: ":"Tutor: ")+m.content).join("\n");
+ try{const r=await sample(sys,{cache:false,onText:({text})=>{out.textContent=text}});out.textContent=r.text;hist.push({role:"assistant",content:r.text})}
+ catch(e){out.textContent=e&&e.code==="not_granted"?"Permission was declined. Ask again to allow the tutor.":"The tutor could not answer right now. Try again in a moment.";hist.pop()}}
+$("qB").onclick=ask;$("qI").onkeydown=e=>{if(e.key==="Enter")ask()};
+const RANKS=["Spark","Explorer","Navigator","Strategist","Architect","Visionary"];
+function renderXP(){const lv=Math.floor(S.xp/100)+1,r=RANKS[Math.min(RANKS.length-1,Math.floor((lv-1)/2))];
+ $("lv").textContent="Level "+lv+" – "+r;$("xpb").style.width=(S.xp%100)+"%";$("xpt").textContent=(S.xp%100)+" of 100 XP to level "+(lv+1);
+ const n=S.tasks.filter(t=>t.d===today()&&t.x).length;
+ const Q=[["Focus for 25 minutes",(S.log[today()]||0)>=25],["Complete 3 planner blocks",n>=3],["Flip 5 flashcards",(S.cr[today()]||0)>=5]];
+ $("qs").innerHTML=Q.map(q=>`<div class="item ${q[1]?"d":""}"><span>${q[1]?"✓ ":""}${q[0]}</span></div>`).join("")}
+let mode="join";
+const U=()=>{try{return JSON.parse(localStorage.getItem("nx_users")||"{}")}catch(e){return{}}};
+const hx=async s=>[...new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s)))].map(b=>b.toString(16).padStart(2,"0")).join("");
+function setMode(m){mode=m;$("aj").setAttribute("aria-pressed",m==="join");$("al").setAttribute("aria-pressed",m==="login");$("aGo").textContent=m==="join"?"Join NEXORA":"Log in";$("aErr").textContent="";$("aPw").autocomplete=m==="join"?"new-password":"current-password"}
+function start(email){user=email;
+ try{localStorage.setItem("nx_session",email);const r=localStorage.getItem("nx_data_"+email);S=Object.assign(JSON.parse(JSON.stringify(dflt)),r?JSON.parse(r):{})}catch(e){}
+ $("auth").hidden=true;$("app").hidden=false;
+ if(!$("out")){const b=document.createElement("button");b.id="out";b.textContent="Log out";
+  b.onclick=()=>{try{localStorage.removeItem("nx_session")}catch(e){}user=null;S=JSON.parse(JSON.stringify(dflt));$("app").hidden=true;$("auth").hidden=false;$("aPw").value=""};$("nav").appendChild(b)}
+ go("dash")}
+$("aj").onclick=()=>setMode("join");$("al").onclick=()=>setMode("login");
+$("aForm").onsubmit=async e=>{e.preventDefault();const em=$("aEm").value.trim().toLowerCase(),pw=$("aPw").value,err=$("aErr");
+ if(!/^\S+@\S+\.\S+$/.test(em)){err.textContent="Enter a valid email address.";return}
+ if(pw.length<8){err.textContent="Password must be at least 8 characters.";return}
+ try{const us=U();
+  if(mode==="join"){if(us[em]){err.textContent="This email already has an account. Log in instead.";return}
+   const salt=crypto.randomUUID();us[em]={salt,h:await hx(salt+pw)};localStorage.setItem("nx_users",JSON.stringify(us));start(em)}
+  else{const u=us[em];if(!u||u.h!==await hx(u.salt+pw)){err.textContent="Email or password is incorrect.";return}start(em)}
+ }catch(x){err.textContent="Could not save your account in this browser. Check that storage is allowed."}};
+setMode("join");
+try{const t=localStorage.getItem("nx_session");if(t&&U()[t])start(t)}catch(e){}
+</script>
+</body>
+</html>
