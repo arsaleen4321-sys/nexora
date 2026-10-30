@@ -222,7 +222,117 @@ $("aForm").onsubmit=async e=>{e.preventDefault();const em=$("aEm").value.trim().
   else{const u=us[em];if(!u||u.h!==await hx(u.salt+pw)){err.textContent="Email or password is incorrect.";return}start(em)}
  }catch(x){err.textContent="Could not save your account in this browser. Check that storage is allowed."}};
 setMode("join");
-try{const t=localStorage.getItem("nx_session");if(t&&U()[t])start(t)}catch(e){}
+const sb = window.supabase.createClient(
+  "https://thdithxxbbndjycuojrn.supabase.co/rest/v1/",
+  "sb_publishable_O-X0lxRlREpyipbjeH0r9w_3ZClex8o"
+);
+
+let mode = "join";
+
+async function logActivity(type, userId) {
+  const { error } = await sb.from("user_activity").insert({
+    event_type: type,
+    user_id: userId
+  });
+  if (error) console.error(error.message);
+}
+
+function setMode(m) {
+  mode = m;
+  $("aj").setAttribute("aria-pressed", m === "join");
+  $("al").setAttribute("aria-pressed", m === "login");
+  $("aGo").textContent = m === "join" ? "Join NEXORA" : "Log in";
+  $("aErr").textContent = "";
+  $("aPw").autocomplete = m === "join" ? "new-password" : "current-password";
+}
+
+function start(email) {
+  user = email;
+  try {
+    const r = localStorage.getItem("nx_data_" + email);
+    S = Object.assign(JSON.parse(JSON.stringify(dflt)), r ? JSON.parse(r) : {});
+  } catch (e) {}
+
+  $("auth").hidden = true;
+  $("app").hidden = false;
+
+  if (!$("out")) {
+    const b = document.createElement("button");
+    b.id = "out";
+    b.textContent = "Log out";
+    b.onclick = async () => {
+      const { data } = await sb.auth.getUser();
+      if (data.user) await logActivity("logout", data.user.id);
+      await sb.auth.signOut();
+      user = null;
+      S = JSON.parse(JSON.stringify(dflt));
+      $("app").hidden = true;
+      $("auth").hidden = false;
+      $("aPw").value = "";
+    };
+    $("nav").appendChild(b);
+  }
+  go("dash");
+}
+
+$("aj").onclick = () => setMode("join");
+$("al").onclick = () => setMode("login");
+
+$("aForm").onsubmit = async e => {
+  e.preventDefault();
+  const em = $("aEm").value.trim().toLowerCase();
+  const pw = $("aPw").value;
+  const err = $("aErr");
+  const btn = $("aGo");
+
+  if (!/^\S+@\S+\.\S+$/.test(em)) {
+    err.textContent = "Enter a valid email address.";
+    return;
+  }
+  if (pw.length < 8) {
+    err.textContent = "Password must be at least 8 characters.";
+    return;
+  }
+
+  btn.disabled = true;
+  err.textContent = "Please wait...";
+
+  try {
+    if (mode === "join") {
+      const { data, error } = await sb.auth.signUp({
+        email: em,
+        password: pw
+      });
+      if (error) throw error;
+
+      if (data.session && data.user) {
+        await logActivity("register", data.user.id);
+        start(em);
+      } else {
+        err.textContent = "Please verify your email, then log in.";
+      }
+    } else {
+      const { data, error } = await sb.auth.signInWithPassword({
+        email: em,
+        password: pw
+      });
+      if (error) throw error;
+      await logActivity("login", data.user.id);
+      start(em);
+    }
+  } catch (error) {
+    err.textContent = error.message || "Something went wrong.";
+  } finally {
+    btn.disabled = false;
+  }
+};
+
+setMode("join");
+
+(async () => {
+  const { data } = await sb.auth.getSession();
+  if (data.session) start(data.session.user.email);
+})();
 </script>
 </body>
 </html>
